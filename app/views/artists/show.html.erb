@@ -8,7 +8,8 @@
   <% @artist.songs.each do |song| %>
     <li>
       <%= link_to "#{song.title} (#{song.album})", artist_song_path(@artist, song) %>
-      <% if song.favorites.length > 0 %>
+      <!-- really we should do this sort of logic as a custom model method, this is a temporary solution. -->
+      <% if Favorite.find_by(user: current_user, song: song) %>
         <%= link_to "&hearts;".html_safe, remove_favorite_song_path(song), method: :delete, class: "fav" %>
       <% else %>
         <%= link_to "&hearts;".html_safe, add_favorite_song_path(song), method: :post, class: "no-fav" %>
